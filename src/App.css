@@ -485,6 +485,15 @@
   font-weight: 600;
 }
 
+/* Extra specificity to prevent any browser/OS override */
+.food-grid .food-card .food-card-info .food-card-name {
+  color: #1e293b !important;
+}
+
+.food-grid .food-card .food-card-info .food-card-price {
+  color: #475569 !important;
+}
+
 .food-card-category {
   font-size: 0.65rem;
   color: #3b82f6;
@@ -1634,19 +1643,329 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .food-card-name {
-    color: #f1f5f9 !important;
-  }
-  .food-card-price {
-    color: #94a3b8 !important;
+
+/* ==========================================================================
+   LAYOUT — DESKTOP vs MOBILE SWITCHING
+   ========================================================================== */
+
+.desktop-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.mobile-layout {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .configurator-sidebar { width: 400px; }
+  .preview-panel { padding: 24px; }
+  .invoice-sheet-container { padding: 30px; }
+}
+
+@media screen and (max-width: 768px) {
+  .desktop-layout { display: none !important; }
+  .mobile-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100dvh;
+    background: #f8fafc;
+    overflow: hidden;
   }
 }
 
+/* ==========================================================================
+   MOBILE TOP BAR
+   ========================================================================== */
+.mobile-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-brand-name {
+  font-size: 1rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e293b 30%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mobile-item-badge {
+  background: #3b82f6;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.mobile-new-btn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #64748b !important;
+  cursor: pointer;
+}
+
+.mobile-new-btn:hover {
+  background: #fee2e2;
+  color: #ef4444 !important;
+  border-color: #fecaca;
+}
 
 /* ==========================================================================
-   RESPONSIVE DESIGN - MOBILE & TABLET OPTIMIZATIONS
+   MOBILE SECTION TABS
    ========================================================================== */
+.mobile-section-tabs {
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.mobile-section-tab {
+  flex: 1;
+  padding: 10px 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b !important;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.mobile-section-tab.active {
+  color: #3b82f6 !important;
+  border-bottom-color: #3b82f6;
+  background: #eff6ff;
+}
+
+/* ==========================================================================
+   MOBILE CONTENT AREA
+   ========================================================================== */
+.mobile-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: #f8fafc;
+  padding-bottom: 80px;
+}
+
+.mobile-sidebar {
+  width: 100% !important;
+  height: auto !important;
+  position: relative !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.mobile-sidebar .sidebar-content {
+  padding: 16px;
+  gap: 20px;
+  overflow: visible;
+  height: auto;
+  flex: none;
+}
+
+.mobile-sidebar .sidebar-footer { display: none !important; }
+
+.mobile-layout .preview-panel {
+  height: auto;
+  padding: 16px;
+  overflow: visible;
+}
+
+.mobile-layout .preview-header-actions {
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.mobile-layout .preview-title-block { justify-content: center; }
+.mobile-layout .action-row { flex-direction: column; gap: 8px; }
+.mobile-layout .print-trigger-btn { width: 100% !important; justify-content: center !important; }
+.mobile-layout .theme-selector-container { width: 100%; }
+.mobile-layout .theme-selector-container select { width: 100%; }
+
+.mobile-layout .invoice-sheet-container {
+  padding: 16px;
+  min-height: auto;
+  border-radius: 8px;
+}
+
+.mobile-layout .invoice-header { flex-direction: column; gap: 12px; }
+.mobile-layout .invoice-meta-block { align-items: flex-start; text-align: left; }
+.mobile-layout .invoice-meta-dates { align-items: flex-start; }
+.mobile-layout .invoice-billing-grid { grid-template-columns: 1fr; gap: 16px; padding: 12px 0; }
+.mobile-layout .invoice-table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mobile-layout .invoice-summary-block { grid-template-columns: 1fr; gap: 16px; }
+
+.mobile-sidebar .form-grid { grid-template-columns: 1fr; gap: 10px; }
+.mobile-sidebar .form-group.full-width { grid-column: span 1; }
+.mobile-sidebar .food-grid { max-height: none; }
+.mobile-sidebar .selected-list { max-height: none; }
+.mobile-sidebar .custom-adder { flex-direction: column; gap: 8px; }
+.mobile-sidebar .custom-adder input { width: 100% !important; flex: 1 !important; }
+.mobile-sidebar .icon-only-btn { width: 100% !important; }
+
+/* ==========================================================================
+   MOBILE BOTTOM NAVIGATION BAR
+   ========================================================================== */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 999;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+  padding: 0 8px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.mobile-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8 !important;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 8px 4px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-btn.active { color: #3b82f6 !important; }
+.mobile-nav-btn.active svg { stroke: #3b82f6; }
+.mobile-nav-btn svg { stroke: #94a3b8; transition: stroke 0.2s ease; }
+
+.mobile-save-center {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  border-radius: 16px !important;
+  flex: 0 0 72px !important;
+  height: 48px !important;
+  margin: 0 8px;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+
+.mobile-save-center svg { stroke: #ffffff !important; }
+.mobile-save-center span { color: #ffffff !important; }
+.mobile-save-center:active { transform: scale(0.95); }
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+@media print {
+  .no-print,
+  .mobile-layout,
+  .mobile-bottom-nav,
+  .configurator-sidebar,
+  .preview-header-actions { display: none !important; }
+
+  .desktop-layout { display: block !important; }
+
+  .preview-panel { padding: 0; }
+
+  .invoice-sheet-container {
+    box-shadow: none;
+    border: none;
+    max-width: 100%;
+    page-break-after: always;
+  }
+}
+
+/* ==========================================================================
+   UPI & QR CODE — SETTINGS SIDEBAR
+   ========================================================================== */
+
+.upi-input-wrapper { position: relative; display: flex; align-items: center; }
+.upi-input-icon { position: absolute; left: 12px; color: #3b82f6; flex-shrink: 0; }
+.upi-input { padding-left: 36px !important; }
+.form-hint { font-size: 0.7rem; color: #64748b; margin-top: 4px; font-style: italic; }
+
+.qr-upload-zone {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 8px; padding: 24px 16px;
+  border: 2px dashed #e2e8f0; border-radius: 12px;
+  background: #f8fafc; cursor: pointer; transition: all 0.2s ease; text-align: center;
+}
+.qr-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+.qr-upload-icon { color: #94a3b8; transition: color 0.2s ease; }
+.qr-upload-zone:hover .qr-upload-icon { color: #3b82f6; }
+.qr-upload-text { font-size: 0.85rem; font-weight: 700; color: #1e293b !important; }
+.qr-upload-hint { font-size: 0.7rem; color: #64748b; }
+
+.qr-preview-box {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 10px; padding: 16px; border: 1px solid #e2e8f0;
+  border-radius: 12px; background: #f8fafc;
+}
+.qr-preview-img { width: 140px; height: 140px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0; }
+.qr-preview-actions { display: flex; gap: 8px; }
+
+.qr-change-btn, .qr-remove-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: 6px; font-size: 0.75rem;
+  font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease;
+}
+.qr-change-btn { background: #eff6ff; color: #3b82f6; border-color: #e2e8f0; }
+.qr-change-btn:hover { background: #3b82f6; color: #ffffff; }
+.qr-remove-btn { background: rgba(239,68,68,0.08); color: #ef4444; border-color: rgba(239,68,68,0.2); }
+.qr-remove-btn:hover { background: #ef4444; color: #ffffff; }
+
+/* ==========================================================================
+   UPI & QR CODE — INVOICE PREVIEW
+   ========================================================================== */
+.upi-row { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--invoice-border); }
+.upi-val { color: var(--invoice-primary) !important; font-size: 0.8rem !important; }
+
+.invoice-qr-block {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 12px; background: var(--invoice-bg-header);
+  border: 1px solid var(--invoice-border); border-radius: 10px; text-align: center;
+}
+.invoice-qr-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--invoice-text-muted); }
+.invoice-qr-img { width: 110px; height: 110px; object-fit: contain; border-radius: 6px; border: 1px solid var(--invoice-border); background: #ffffff; padding: 4px; }
+.invoice-qr-upi { font-size: 0.7rem; font-weight: 700; color: var(--invoice-primary); word-break: break-all; max-width: 120px; }
+
 
 /* Tablet View (768px - 1024px) */
 @media screen and (max-width: 1024px) {

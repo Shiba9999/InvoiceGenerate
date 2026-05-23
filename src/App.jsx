@@ -7,14 +7,12 @@ function App() {
   // --- CENTRALIZED STATE MANAGEMENT ---
   const [selectedItems, setSelectedItems] = useState([])
   const [customFlatCharges, setCustomFlatCharges] = useState([])
-  const [guestCount, setGuestCount] = useState(200) // Default 200 guests for catering
+  const [guestCount, setGuestCount] = useState(200)
   
-  // Tax / Discounts / Delivery
-  const [taxRate, setTaxRate] = useState(0) // default 0%
-  const [discountRate, setDiscountRate] = useState(0) // default 0%
-  const [deliveryCharge, setDeliveryCharge] = useState(0) // default 0
+  const [taxRate, setTaxRate] = useState(0)
+  const [discountRate, setDiscountRate] = useState(0)
+  const [deliveryCharge, setDeliveryCharge] = useState(0)
   
-  // Customer & Event Info
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     phone: '',
@@ -24,7 +22,6 @@ function App() {
     eventType: 'Marriage Catering'
   })
 
-  // Business Profile - PREFILLED WITH LAXMI NRUSINGHA CATERING DETAILS
   const [businessInfo, setBusinessInfo] = useState({
     name: 'Laxmi Nrusingha Catering',
     tagline: 'Specialist in Delicious Food & Marriage Catering',
@@ -34,26 +31,27 @@ function App() {
     bankName: 'State Bank of India (SBI)',
     bankAcc: '31245678901',
     bankIfsc: 'SBIN0001234',
+    upiId: '',
+    qrCodeUrl: '',
     terms: '1. 40% advance payment required to book and block the date.\n2. Guest plate count confirmation must be done 3 days before the event.\n3. Balance must be cleared on the event day itself.\n4. Standard terms and conditions apply.'
   })
 
-  // Invoices History State
   const [savedInvoices, setSavedInvoices] = useState([])
   const [invoiceNumber, setInvoiceNumber] = useState('')
-  const [activeSidebarTab, setActiveSidebarTab] = useState('menu') // 'menu' | 'profile' | 'history'
+  const [activeSidebarTab, setActiveSidebarTab] = useState('menu')
   const [invoiceTheme, setInvoiceTheme] = useState(() => {
     return localStorage.getItem('laxmi_catering_invoice_theme') || 'navy'
   })
+
+  // Mobile view: 'build' | 'preview'
+  const [mobileView, setMobileView] = useState('build')
 
   useEffect(() => {
     localStorage.setItem('laxmi_catering_invoice_theme', invoiceTheme)
   }, [invoiceTheme])
 
-  // --- AUTO INVOICE NUMBER GENERATION ---
   useEffect(() => {
-    if (!invoiceNumber) {
-      generateNewInvoiceNumber()
-    }
+    if (!invoiceNumber) generateNewInvoiceNumber()
   }, [])
 
   const generateNewInvoiceNumber = () => {
@@ -63,24 +61,17 @@ function App() {
     setInvoiceNumber(`LNC-${year}-${rand}`)
   }
 
-  // --- LOCALSTORAGE PERSISTENCE ---
   useEffect(() => {
-    // Load Business Profile
     const savedProfile = localStorage.getItem('laxmi_catering_profile')
     if (savedProfile) {
       setBusinessInfo(JSON.parse(savedProfile))
     } else {
       localStorage.setItem('laxmi_catering_profile', JSON.stringify(businessInfo))
     }
-    
-    // Load Saved Invoices
     const storedInvoices = localStorage.getItem('laxmi_catering_invoices_history')
-    if (storedInvoices) {
-      setSavedInvoices(JSON.parse(storedInvoices))
-    }
+    if (storedInvoices) setSavedInvoices(JSON.parse(storedInvoices))
   }, [])
 
-  // --- HANDLER LOGICS ---
   const handleAddFood = (food) => {
     if (selectedItems.some(item => item.id === food.id)) return
     setSelectedItems([...selectedItems, { ...food }])
@@ -91,32 +82,27 @@ function App() {
   }
 
   const handleUpdateItemPrice = (id, newPrice) => {
-    setSelectedItems(selectedItems.map(item => {
-      if (item.id === id) {
-        return { ...item, unitPrice: parseFloat(newPrice) || 0 }
-      }
-      return item
-    }))
+    setSelectedItems(selectedItems.map(item =>
+      item.id === id ? { ...item, unitPrice: parseFloat(newPrice) || 0 } : item
+    ))
   }
 
   const handleAddCustomFood = (name, price) => {
-    const newCustomFood = {
+    setSelectedItems([...selectedItems, {
       id: 'custom_food_' + Date.now(),
-      name: name,
+      name,
       category: 'Custom Dish',
       unitPrice: parseFloat(price) || 0,
       isCustom: true
-    }
-    setSelectedItems([...selectedItems, newCustomFood])
+    }])
   }
 
   const handleAddFlatCharge = (name, amount) => {
-    const newFlat = {
+    setCustomFlatCharges([...customFlatCharges, {
       id: 'flat_' + Date.now(),
-      name: name,
+      name,
       amount: parseFloat(amount) || 0
-    }
-    setCustomFlatCharges([...customFlatCharges, newFlat])
+    }])
   }
 
   const handleRemoveFlatCharge = (id) => {
@@ -124,7 +110,6 @@ function App() {
   }
 
   const handleSaveInvoice = () => {
-    // Math calculations
     const platePerCost = selectedItems.reduce((acc, curr) => acc + curr.unitPrice, 0)
     const baseSubtotal = platePerCost * guestCount
     const discountAmount = baseSubtotal * (discountRate / 100)
@@ -134,19 +119,11 @@ function App() {
     const grandTotal = afterDiscount + taxAmount + parseFloat(deliveryCharge || 0) + flatChargesTotal
 
     const newInvoice = {
-      id: invoiceNumber,
-      customerInfo,
-      selectedItems,
-      customFlatCharges,
-      guestCount,
-      taxRate,
-      discountRate,
-      deliveryCharge,
-      grandTotal,
-      invoiceTheme,
-      dateSaved: new Date().toLocaleDateString()
+      id: invoiceNumber, customerInfo, selectedItems, customFlatCharges,
+      guestCount, taxRate, discountRate, deliveryCharge, grandTotal,
+      invoiceTheme, dateSaved: new Date().toLocaleDateString()
     }
-    
+
     let updatedHistory = []
     const index = savedInvoices.findIndex(inv => inv.id === invoiceNumber)
     if (index > -1) {
@@ -155,10 +132,10 @@ function App() {
     } else {
       updatedHistory = [newInvoice, ...savedInvoices]
     }
-    
+
     setSavedInvoices(updatedHistory)
     localStorage.setItem('laxmi_catering_invoices_history', JSON.stringify(updatedHistory))
-    alert(`Draft INV #${invoiceNumber} successfully saved to local history!`)
+    alert(`Draft INV #${invoiceNumber} successfully saved!`)
   }
 
   const handleLoadInvoice = (inv) => {
@@ -176,7 +153,7 @@ function App() {
 
   const handleDeleteHistoryInvoice = (e, id) => {
     e.stopPropagation()
-    if (!confirm('Are you sure you want to delete this invoice from history?')) return
+    if (!confirm('Delete this invoice from history?')) return
     const updated = savedInvoices.filter(inv => inv.id !== id)
     setSavedInvoices(updated)
     localStorage.setItem('laxmi_catering_invoices_history', JSON.stringify(updated))
@@ -190,72 +167,125 @@ function App() {
     setDiscountRate(0)
     setDeliveryCharge(0)
     setCustomerInfo({
-      name: '',
-      phone: '',
-      email: '',
+      name: '', phone: '', email: '',
       eventDate: new Date().toISOString().split('T')[0],
-      eventVenue: '',
-      eventType: 'Marriage Catering'
+      eventVenue: '', eventType: 'Marriage Catering'
     })
     generateNewInvoiceNumber()
   }
 
-  const handlePrint = () => {
-    window.print()
+  const handlePrint = () => window.print()
+
+  const sharedProps = {
+    businessInfo, customerInfo, invoiceNumber, selectedItems,
+    guestCount, customFlatCharges, discountRate, taxRate, deliveryCharge,
+    invoiceTheme, setInvoiceTheme, handlePrint
   }
 
   return (
     <div className="app-container">
-      {/* Sidebar Control Panel */}
-      <SidebarConfig
-        customerInfo={customerInfo}
-        setCustomerInfo={setCustomerInfo}
-        guestCount={guestCount}
-        setGuestCount={setGuestCount}
-        invoiceNumber={invoiceNumber}
-        setInvoiceNumber={setInvoiceNumber}
-        selectedItems={selectedItems}
-        setSelectedItems={setSelectedItems}
-        customFlatCharges={customFlatCharges}
-        setCustomFlatCharges={setCustomFlatCharges}
-        taxRate={taxRate}
-        setTaxRate={setTaxRate}
-        discountRate={discountRate}
-        setDiscountRate={setDiscountRate}
-        deliveryCharge={deliveryCharge}
-        setDeliveryCharge={setDeliveryCharge}
-        businessInfo={businessInfo}
-        setBusinessInfo={setBusinessInfo}
-        savedInvoices={savedInvoices}
-        activeSidebarTab={activeSidebarTab}
-        setActiveSidebarTab={setActiveSidebarTab}
-        handleResetInvoice={handleResetInvoice}
-        handleSaveInvoice={handleSaveInvoice}
-        handleLoadInvoice={handleLoadInvoice}
-        handleDeleteHistoryInvoice={handleDeleteHistoryInvoice}
-        handleAddFood={handleAddFood}
-        handleRemoveFood={handleRemoveFood}
-        handleUpdateItemPrice={handleUpdateItemPrice}
-        handleAddCustomFood={handleAddCustomFood}
-        handleAddFlatCharge={handleAddFlatCharge}
-        handleRemoveFlatCharge={handleRemoveFlatCharge}
-      />
+      {/* ── DESKTOP: side-by-side layout ── */}
+      <div className="desktop-layout">
+        <SidebarConfig
+          customerInfo={customerInfo} setCustomerInfo={setCustomerInfo}
+          guestCount={guestCount} setGuestCount={setGuestCount}
+          invoiceNumber={invoiceNumber} setInvoiceNumber={setInvoiceNumber}
+          selectedItems={selectedItems} setSelectedItems={setSelectedItems}
+          customFlatCharges={customFlatCharges} setCustomFlatCharges={setCustomFlatCharges}
+          taxRate={taxRate} setTaxRate={setTaxRate}
+          discountRate={discountRate} setDiscountRate={setDiscountRate}
+          deliveryCharge={deliveryCharge} setDeliveryCharge={setDeliveryCharge}
+          businessInfo={businessInfo} setBusinessInfo={setBusinessInfo}
+          savedInvoices={savedInvoices}
+          activeSidebarTab={activeSidebarTab} setActiveSidebarTab={setActiveSidebarTab}
+          handleResetInvoice={handleResetInvoice} handleSaveInvoice={handleSaveInvoice}
+          handleLoadInvoice={handleLoadInvoice} handleDeleteHistoryInvoice={handleDeleteHistoryInvoice}
+          handleAddFood={handleAddFood} handleRemoveFood={handleRemoveFood}
+          handleUpdateItemPrice={handleUpdateItemPrice} handleAddCustomFood={handleAddCustomFood}
+          handleAddFlatCharge={handleAddFlatCharge} handleRemoveFlatCharge={handleRemoveFlatCharge}
+        />
+        <InvoicePreview {...sharedProps} />
+      </div>
 
-      {/* Real-time PDF / Printing preview Panel */}
-      <InvoicePreview
-        businessInfo={businessInfo}
-        customerInfo={customerInfo}
-        invoiceNumber={invoiceNumber}
-        selectedItems={selectedItems}
-        guestCount={guestCount}
-        customFlatCharges={customFlatCharges}
-        discountRate={discountRate}
-        taxRate={taxRate}
-        deliveryCharge={deliveryCharge}
-        handlePrint={handlePrint}
-        invoiceTheme={invoiceTheme}
-        setInvoiceTheme={setInvoiceTheme}
-      />
+      {/* ── MOBILE: full-screen tab switcher ── */}
+      <div className="mobile-layout">
+        {/* Top bar */}
+        <div className="mobile-topbar">
+          <div className="mobile-brand">
+            <span className="mobile-brand-name">Laxmi Catering</span>
+            {selectedItems.length > 0 && (
+              <span className="mobile-item-badge">{selectedItems.length} items</span>
+            )}
+          </div>
+          <button className="mobile-new-btn" onClick={handleResetInvoice}>New</button>
+        </div>
+
+        {/* Tab content — full screen scrollable */}
+        <div className="mobile-content">
+          {mobileView === 'build' && (
+            <SidebarConfig
+              customerInfo={customerInfo} setCustomerInfo={setCustomerInfo}
+              guestCount={guestCount} setGuestCount={setGuestCount}
+              invoiceNumber={invoiceNumber} setInvoiceNumber={setInvoiceNumber}
+              selectedItems={selectedItems} setSelectedItems={setSelectedItems}
+              customFlatCharges={customFlatCharges} setCustomFlatCharges={setCustomFlatCharges}
+              taxRate={taxRate} setTaxRate={setTaxRate}
+              discountRate={discountRate} setDiscountRate={setDiscountRate}
+              deliveryCharge={deliveryCharge} setDeliveryCharge={setDeliveryCharge}
+              businessInfo={businessInfo} setBusinessInfo={setBusinessInfo}
+              savedInvoices={savedInvoices}
+              activeSidebarTab={activeSidebarTab} setActiveSidebarTab={setActiveSidebarTab}
+              handleResetInvoice={handleResetInvoice} handleSaveInvoice={handleSaveInvoice}
+              handleLoadInvoice={handleLoadInvoice} handleDeleteHistoryInvoice={handleDeleteHistoryInvoice}
+              handleAddFood={handleAddFood} handleRemoveFood={handleRemoveFood}
+              handleUpdateItemPrice={handleUpdateItemPrice} handleAddCustomFood={handleAddCustomFood}
+              handleAddFlatCharge={handleAddFlatCharge} handleRemoveFlatCharge={handleRemoveFlatCharge}
+              isMobile={true}
+            />
+          )}
+          {mobileView === 'preview' && (
+            <InvoicePreview {...sharedProps} isMobile={true} />
+          )}
+        </div>
+
+        {/* Bottom navigation bar */}
+        <nav className="mobile-bottom-nav">
+          <button
+            className={`mobile-nav-btn ${mobileView === 'build' ? 'active' : ''}`}
+            onClick={() => setMobileView('build')}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+            <span>Build</span>
+          </button>
+          <button
+            className="mobile-nav-btn mobile-save-center"
+            onClick={handleSaveInvoice}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            <span>Save</span>
+          </button>
+          <button
+            className={`mobile-nav-btn ${mobileView === 'preview' ? 'active' : ''}`}
+            onClick={() => setMobileView('preview')}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            <span>Preview</span>
+          </button>
+        </nav>
+      </div>
     </div>
   )
 }

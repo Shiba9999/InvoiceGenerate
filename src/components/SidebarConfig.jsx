@@ -6,37 +6,23 @@ import {
 import { LAXMI_FOOD_ITEMS, LAXMI_CATEGORIES } from '../foods'
 
 function SidebarConfig({
-  customerInfo,
-  setCustomerInfo,
-  guestCount,
-  setGuestCount,
-  invoiceNumber,
-  setInvoiceNumber,
-  selectedItems,
-  setSelectedItems,
-  customFlatCharges,
-  setCustomFlatCharges,
-  taxRate,
-  setTaxRate,
-  discountRate,
-  setDiscountRate,
-  deliveryCharge,
-  setDeliveryCharge,
-  businessInfo,
-  setBusinessInfo,
+  customerInfo, setCustomerInfo,
+  guestCount, setGuestCount,
+  invoiceNumber, setInvoiceNumber,
+  selectedItems, setSelectedItems,
+  customFlatCharges, setCustomFlatCharges,
+  taxRate, setTaxRate,
+  discountRate, setDiscountRate,
+  deliveryCharge, setDeliveryCharge,
+  businessInfo, setBusinessInfo,
   savedInvoices,
-  activeSidebarTab,
-  setActiveSidebarTab,
-  handleResetInvoice,
-  handleSaveInvoice,
-  handleLoadInvoice,
-  handleDeleteHistoryInvoice,
-  handleAddFood,
-  handleRemoveFood,
-  handleUpdateItemPrice,
-  handleAddCustomFood,
-  handleAddFlatCharge,
-  handleRemoveFlatCharge
+  activeSidebarTab, setActiveSidebarTab,
+  handleResetInvoice, handleSaveInvoice,
+  handleLoadInvoice, handleDeleteHistoryInvoice,
+  handleAddFood, handleRemoveFood,
+  handleUpdateItemPrice, handleAddCustomFood,
+  handleAddFlatCharge, handleRemoveFlatCharge,
+  isMobile = false
 }) {
   // Local UI States for forms
   const [searchQuery, setSearchQuery] = useState('')
@@ -89,40 +75,47 @@ function SidebarConfig({
   }
 
   return (
-    <aside className="configurator-sidebar no-print">
-      {/* Sidebar Header & Navigation Tabs */}
-      <div className="sidebar-header-nav">
-        <div className="sidebar-branding-row">
-          <div className="sidebar-logo-block">
-            <Sparkles size={22} className="logo-sparkle" />
-            <h2 className="sidebar-logo-title">Laxmi Catering</h2>
+    <aside className={`configurator-sidebar no-print ${isMobile ? 'mobile-sidebar' : ''}`}>
+      {/* Sidebar Header & Navigation Tabs — hidden on mobile (app topbar handles it) */}
+      {!isMobile && (
+        <div className="sidebar-header-nav">
+          <div className="sidebar-branding-row">
+            <div className="sidebar-logo-block">
+              <Sparkles size={22} className="logo-sparkle" />
+              <h2 className="sidebar-logo-title">Laxmi Catering</h2>
+            </div>
+            <button className="tab-btn reset-btn" onClick={handleResetInvoice} title="Start a fresh invoice draft">
+              <RefreshCw size={12} /> <span className="btn-label-desktop">New Draft</span>
+            </button>
           </div>
-          <button className="tab-btn reset-btn" onClick={handleResetInvoice} title="Start a fresh invoice draft">
-            <RefreshCw size={12} /> <span className="btn-label-desktop">New Draft</span>
-          </button>
+          <div className="sidebar-nav-tabs">
+            <button className={`tab-btn nav-tab ${activeSidebarTab === 'menu' ? 'active' : ''}`} onClick={() => setActiveSidebarTab('menu')}>
+              Order Details
+            </button>
+            <button className={`tab-btn nav-tab ${activeSidebarTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveSidebarTab('profile')}>
+              Settings
+            </button>
+            <button className={`tab-btn nav-tab ${activeSidebarTab === 'history' ? 'active' : ''}`} onClick={() => setActiveSidebarTab('history')}>
+              History <span className="history-badge">{savedInvoices.length}</span>
+            </button>
+          </div>
         </div>
-        
-        <div className="sidebar-nav-tabs">
-          <button 
-            className={`tab-btn nav-tab ${activeSidebarTab === 'menu' ? 'active' : ''}`} 
-            onClick={() => setActiveSidebarTab('menu')}
-          >
-            Order Details
+      )}
+
+      {/* On mobile: compact tab row only */}
+      {isMobile && (
+        <div className="mobile-section-tabs">
+          <button className={`mobile-section-tab ${activeSidebarTab === 'menu' ? 'active' : ''}`} onClick={() => setActiveSidebarTab('menu')}>
+            Order
           </button>
-          <button 
-            className={`tab-btn nav-tab ${activeSidebarTab === 'profile' ? 'active' : ''}`} 
-            onClick={() => setActiveSidebarTab('profile')}
-          >
+          <button className={`mobile-section-tab ${activeSidebarTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveSidebarTab('profile')}>
             Settings
           </button>
-          <button 
-            className={`tab-btn nav-tab ${activeSidebarTab === 'history' ? 'active' : ''}`} 
-            onClick={() => setActiveSidebarTab('history')}
-          >
-            History <span className="history-badge">{savedInvoices.length}</span>
+          <button className={`mobile-section-tab ${activeSidebarTab === 'history' ? 'active' : ''}`} onClick={() => setActiveSidebarTab('history')}>
+            History {savedInvoices.length > 0 && <span className="history-badge">{savedInvoices.length}</span>}
           </button>
         </div>
-      </div>
+      )}
 
       {/* Scrollable Form Body */}
       <div className="sidebar-content">
@@ -639,12 +632,14 @@ function SidebarConfig({
         )}
       </div>
 
-      {/* Sidebar Sticky Footer Actions */}
-      <div className="sidebar-footer">
-        <button className="action-btn action-btn-primary" onClick={handleSaveInvoice}>
-          <Save size={16} /> Save Draft to History
-        </button>
-      </div>
+      {/* Sidebar Sticky Footer Actions — hidden on mobile */}
+      {!isMobile && (
+        <div className="sidebar-footer">
+          <button className="action-btn action-btn-primary" onClick={handleSaveInvoice}>
+            <Save size={16} /> Save Draft to History
+          </button>
+        </div>
+      )}
     </aside>
   )
 }
