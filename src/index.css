@@ -1,20 +1,23 @@
+/* Force light theme always — no dark mode, consistent across all devices & deployments */
 :root {
+  color-scheme: light only;
+
   /* Color System - Smooth Blue & White Theme */
   --bg-app: #f8fafc;
   --bg-sidebar: #ffffff;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
   --border-color: #e2e8f0;
-  
-  --primary: #3b82f6; /* Smooth Blue */
-  --primary-hover: #2563eb; /* Deeper Blue */
-  --primary-light: #eff6ff; /* Very Light Blue */
+
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-light: #eff6ff;
   --primary-glow: rgba(59, 130, 246, 0.12);
-  
-  --text-main: #1e293b; /* Slate Gray */
-  --text-muted: #64748b; /* Medium Gray */
+
+  --text-main: #1e293b;
+  --text-muted: #64748b;
   --text-inverse: #ffffff;
-  
+
   --success: #10b981;
   --error: #ef4444;
   --info: #3b82f6;
@@ -30,35 +33,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Light Blue Theme Override for Dark Mode Preference */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-app: #f8fafc;
-    --bg-sidebar: #ffffff;
-    --bg-card: #ffffff;
-    --bg-card-hover: #f1f5f9;
-    --border-color: #e2e8f0;
-    
-    --primary: #3b82f6;
-    --primary-hover: #2563eb;
-    --primary-light: #eff6ff;
-    --primary-glow: rgba(59, 130, 246, 0.12);
-    
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-  }
-}
-
-* {
+/* Hard reset — never let OS dark mode override our theme */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  color-scheme: light;
+}
+
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-app);
-  color: var(--text-main);
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
   min-height: 100vh;
   line-height: 1.5;
   overflow-x: hidden;
@@ -82,7 +71,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  color: var(--text-main);
+  color: #1e293b;
   font-weight: 600;
 }
 
@@ -91,6 +80,8 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #f8fafc;
+  color: #1e293b;
 }
 
 /* Universal transition for interaction */
