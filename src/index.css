@@ -1,0 +1,99 @@
+:root {
+  /* Color System */
+  --bg-app: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --border-color: #e2e8f0;
+  
+  --primary: #d97706; /* Amber-600 */
+  --primary-hover: #b45309; /* Amber-700 */
+  --primary-light: #fef3c7; /* Amber-100 */
+  --primary-glow: rgba(217, 119, 6, 0.15);
+  
+  --text-main: #1e293b; /* Slate-800 */
+  --text-muted: #64748b; /* Slate-500 */
+  --text-inverse: #ffffff;
+  
+  --success: #10b981;
+  --error: #ef4444;
+  --info: #3b82f6;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', var(--font-sans);
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dark Mode Preferences */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-app: #0f172a; /* Slate-900 */
+    --bg-sidebar: #1e293b; /* Slate-800 */
+    --bg-card: #1e293b;
+    --bg-card-hover: #334155;
+    --border-color: #334155;
+    
+    --primary: #f59e0b; /* Amber-500 */
+    --primary-hover: #fbbf24; /* Amber-400 */
+    --primary-light: #78350f; /* Amber-900 */
+    --primary-glow: rgba(245, 158, 11, 0.2);
+    
+    --text-main: #f1f5f9; /* Slate-100 */
+    --text-muted: #94a3b8; /* Slate-400 */
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Universal transition for interaction */
+a, button, input, select, textarea {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
