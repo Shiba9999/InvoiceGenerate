@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import SidebarConfig from './components/SidebarConfig'
 import InvoicePreview from './components/InvoicePreview'
+import { ToastContainer, toast } from './components/Toast'
 import './App.css'
 
 function App() {
@@ -135,7 +136,7 @@ function App() {
 
     setSavedInvoices(updatedHistory)
     localStorage.setItem('laxmi_catering_invoices_history', JSON.stringify(updatedHistory))
-    alert(`Draft INV #${invoiceNumber} successfully saved!`)
+    toast.success(`Draft INV #${invoiceNumber} saved successfully!`)
   }
 
   const handleLoadInvoice = (inv) => {
@@ -153,10 +154,10 @@ function App() {
 
   const handleDeleteHistoryInvoice = (e, id) => {
     e.stopPropagation()
-    if (!confirm('Delete this invoice from history?')) return
     const updated = savedInvoices.filter(inv => inv.id !== id)
     setSavedInvoices(updated)
     localStorage.setItem('laxmi_catering_invoices_history', JSON.stringify(updated))
+    toast.info('Invoice removed from history.')
   }
 
   const handleResetInvoice = () => {
@@ -172,6 +173,7 @@ function App() {
       eventVenue: '', eventType: 'Marriage Catering'
     })
     generateNewInvoiceNumber()
+    toast.info('New draft started.')
   }
 
   const handlePrint = () => window.print()
@@ -184,6 +186,7 @@ function App() {
 
   return (
     <div className="app-container">
+      <ToastContainer />
       {/* ── DESKTOP: side-by-side layout ── */}
       <div className="desktop-layout">
         <SidebarConfig

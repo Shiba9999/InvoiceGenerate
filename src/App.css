@@ -2528,3 +2528,365 @@
   word-break: break-all;
   max-width: 120px;
 }
+
+/* ==========================================================================
+   TOAST NOTIFICATIONS
+   ========================================================================== */
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 360px;
+  width: calc(100vw - 40px);
+}
+
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  pointer-events: all;
+  animation: toast-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(60px) scale(0.9); }
+  to   { opacity: 1; transform: translateX(0)   scale(1);   }
+}
+
+.toast-success { background: linear-gradient(135deg, #059669, #10b981); }
+.toast-error   { background: linear-gradient(135deg, #dc2626, #ef4444); }
+.toast-warning { background: linear-gradient(135deg, #d97706, #f59e0b); }
+.toast-info    { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+
+.toast-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.toast-msg {
+  flex: 1;
+  line-height: 1.4;
+  color: #ffffff !important;
+}
+
+.toast-close {
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff !important;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.toast-close:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Mobile: toast from bottom */
+@media screen and (max-width: 768px) {
+  .toast-container {
+    top: auto;
+    bottom: 80px; /* above bottom nav */
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: 100%;
+  }
+
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  }
+}
+
+/* ==========================================================================
+   MOBILE PREVIEW — COMPACT SUMMARY CARD
+   ========================================================================== */
+
+.mobile-preview-root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: #f1f5f9;
+  min-height: 100%;
+}
+
+/* ── Header card ── */
+.mp-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  gap: 12px;
+}
+
+.mp-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mp-brand {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #1e293b !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mp-inv-num {
+  font-size: 0.7rem;
+  color: #64748b !important;
+  font-weight: 600;
+}
+
+.mp-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mp-print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #3b82f6;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mp-print-btn:active { opacity: 0.85; }
+
+.mp-theme-select {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #475569 !important;
+  cursor: pointer;
+  max-width: 130px;
+}
+
+/* ── Info strip ── */
+.mp-info-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mp-info-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #475569 !important;
+}
+
+.mp-info-chip svg { color: #3b82f6; flex-shrink: 0; }
+
+/* ── Items section ── */
+.mp-items-section {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.mp-section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b !important;
+  padding: 10px 14px 6px;
+}
+
+.mp-section-label svg { color: #3b82f6; }
+
+.mp-empty {
+  padding: 20px 14px;
+  font-size: 0.8rem;
+  color: #94a3b8 !important;
+  text-align: center;
+}
+
+.mp-items-list {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 4px;
+}
+
+.mp-cat-row {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #3b82f6 !important;
+  background: #eff6ff;
+  padding: 5px 14px;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.mp-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mp-item-row:last-child { border-bottom: none; }
+
+.mp-item-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1e293b !important;
+  flex: 1;
+  padding-right: 8px;
+}
+
+.mp-item-total {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155 !important;
+  white-space: nowrap;
+}
+
+/* ── Totals card ── */
+.mp-totals-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mp-totals-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #64748b !important;
+  font-weight: 500;
+}
+
+.mp-discount { color: #dc2626 !important; font-weight: 600; }
+
+.mp-grand-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1e293b !important;
+  border-top: 2px solid #e2e8f0;
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.mp-grand-total-row span:last-child { color: #3b82f6 !important; }
+
+.mp-per-plate {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.7rem;
+  color: #64748b !important;
+  font-weight: 600;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+
+/* ── Payment card ── */
+.mp-payment-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.mp-payment-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.mp-qr-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.mp-payment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.mp-upi {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #3b82f6 !important;
+}
+
+.mp-bank-line {
+  font-size: 0.72rem;
+  color: #64748b !important;
+  font-weight: 500;
+}

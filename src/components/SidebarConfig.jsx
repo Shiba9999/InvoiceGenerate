@@ -4,6 +4,7 @@ import {
   Settings, CreditCard, Sparkles, AlertCircle, RefreshCw, Calendar, QrCode, Smartphone, Upload, X
 } from 'lucide-react'
 import { LAXMI_FOOD_ITEMS, LAXMI_CATEGORIES } from '../foods'
+import { toast } from './Toast'
 
 function SidebarConfig({
   customerInfo, setCustomerInfo,
@@ -198,8 +199,14 @@ function SidebarConfig({
                     type="number" 
                     className="form-input" 
                     min="1"
-                    value={guestCount}
-                    onChange={e => setGuestCount(Math.max(1, parseInt(e.target.value) || 0))}
+                    value={guestCount === 0 ? '' : guestCount}
+                    placeholder="0"
+                    onChange={e => {
+                      const v = e.target.value
+                      if (v === '') { setGuestCount(0); return }
+                      const n = parseInt(v)
+                      if (!isNaN(n)) setGuestCount(Math.max(1, n))
+                    }}
                   />
                 </div>
                 <div className="form-group">
@@ -401,8 +408,14 @@ function SidebarConfig({
                     className="form-input" 
                     min="0" 
                     max="100"
-                    value={discountRate}
-                    onChange={e => setDiscountRate(Math.min(100, Math.max(0, parseFloat(e.target.value) || 0)))}
+                    value={discountRate === 0 ? '' : discountRate}
+                    placeholder="0"
+                    onChange={e => {
+                      const v = e.target.value
+                      if (v === '' || v === '-') { setDiscountRate(0); return }
+                      const n = parseFloat(v)
+                      if (!isNaN(n)) setDiscountRate(Math.min(100, Math.max(0, n)))
+                    }}
                   />
                 </div>
                 <div className="form-group">
@@ -411,8 +424,14 @@ function SidebarConfig({
                     type="number" 
                     className="form-input" 
                     min="0"
-                    value={taxRate}
-                    onChange={e => setTaxRate(Math.max(0, parseFloat(e.target.value) || 0))}
+                    value={taxRate === 0 ? '' : taxRate}
+                    placeholder="0"
+                    onChange={e => {
+                      const v = e.target.value
+                      if (v === '' || v === '-') { setTaxRate(0); return }
+                      const n = parseFloat(v)
+                      if (!isNaN(n)) setTaxRate(Math.max(0, n))
+                    }}
                   />
                 </div>
                 <div className="form-group full-width">
@@ -421,8 +440,14 @@ function SidebarConfig({
                     type="number" 
                     className="form-input" 
                     min="0"
-                    value={deliveryCharge}
-                    onChange={e => setDeliveryCharge(Math.max(0, parseFloat(e.target.value) || 0))}
+                    value={deliveryCharge === 0 ? '' : deliveryCharge}
+                    placeholder="0"
+                    onChange={e => {
+                      const v = e.target.value
+                      if (v === '' || v === '-') { setDeliveryCharge(0); return }
+                      const n = parseFloat(v)
+                      if (!isNaN(n)) setDeliveryCharge(Math.max(0, n))
+                    }}
                   />
                 </div>
               </div>
@@ -595,7 +620,7 @@ function SidebarConfig({
             
             <button className="action-btn action-btn-primary" onClick={() => {
               localStorage.setItem('laxmi_catering_profile', JSON.stringify(businessInfo))
-              alert('Business Settings saved locally!')
+              toast.success('Business settings saved!')
             }}>
               <Save size={16} /> Save Profile Settings
             </button>
