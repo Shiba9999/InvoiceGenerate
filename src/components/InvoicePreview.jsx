@@ -76,13 +76,22 @@ function InvoicePreview({
               className="form-select" 
               value={invoiceTheme} 
               onChange={(e) => setInvoiceTheme(e.target.value)}
-              style={{ width: '180px', padding: '6px 12px', fontSize: '0.8rem', height: '36px', borderRadius: '8px', cursor: 'pointer' }}
+              style={{ width: '220px', padding: '6px 12px', fontSize: '0.8rem', height: '36px', borderRadius: '8px', cursor: 'pointer' }}
             >
-              <option value="navy">Midnight Navy & Gold</option>
-              <option value="emerald">Forest Emerald & Ivory</option>
-              <option value="indigo">Royal Indigo & Teal</option>
-              <option value="burgundy">Burgundy & Rose Gold</option>
-              <option value="amber">Classic Amber Gold</option>
+              <optgroup label="Modern Light Themes">
+                <option value="navy">Midnight Navy & Teal</option>
+                <option value="emerald">Forest Emerald & Mint</option>
+                <option value="indigo">Royal Indigo & Lavender</option>
+                <option value="slate">Slate Blue & Charcoal</option>
+                <option value="burgundy">Burgundy & Crimson</option>
+                <option value="light">Classic Minimal Light</option>
+                <option value="amber">Amber Gold & Foil</option>
+                <option value="rosegold">Champagne & Rose Gold</option>
+              </optgroup>
+              <optgroup label="Innovative Dark Themes">
+                <option value="dark">Midnight Premium Dark 🌙</option>
+                <option value="synthwave">Cyberpunk Synthwave ⚡</option>
+              </optgroup>
             </select>
           </div>
           <button className="action-btn action-btn-primary print-trigger-btn" onClick={handlePrint} style={{ height: '36px', padding: '0 16px' }}>
@@ -220,7 +229,28 @@ function InvoicePreview({
                   <span>IFSC Code:</span>
                   <span className="bank-detail-val">{businessInfo.bankIfsc}</span>
                 </div>
+                {businessInfo.upiId && (
+                  <div className="bank-detail-row upi-row">
+                    <span>UPI ID:</span>
+                    <span className="bank-detail-val upi-val">📱 {businessInfo.upiId}</span>
+                  </div>
+                )}
               </div>
+
+              {/* QR Code block */}
+              {businessInfo.qrCodeUrl && (
+                <div className="invoice-qr-block">
+                  <div className="invoice-qr-label">Scan to Pay</div>
+                  <img 
+                    src={businessInfo.qrCodeUrl} 
+                    alt="Payment QR Code" 
+                    className="invoice-qr-img"
+                  />
+                  {businessInfo.upiId && (
+                    <div className="invoice-qr-upi">{businessInfo.upiId}</div>
+                  )}
+                </div>
+              )}
 
               {businessInfo.terms && (
                 <div className="invoice-notes-block">

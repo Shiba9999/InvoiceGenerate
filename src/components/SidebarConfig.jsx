@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { 
   Search, Plus, Trash2, History, Save, 
-  Settings, CreditCard, Sparkles, AlertCircle, RefreshCw, Calendar, Phone, Mail, MapPin 
+  Settings, CreditCard, Sparkles, AlertCircle, RefreshCw, Calendar, QrCode, Smartphone, Upload, X
 } from 'lucide-react'
 import { LAXMI_FOOD_ITEMS, LAXMI_CATEGORIES } from '../foods'
 
@@ -45,6 +45,7 @@ function SidebarConfig({
   const [customItemPrice, setCustomItemPrice] = useState('')
   const [flatChargeName, setFlatChargeName] = useState('')
   const [flatChargeAmount, setFlatChargeAmount] = useState('')
+  const qrFileRef = useRef(null)
 
   // Filter Catalog
   const filteredFoods = LAXMI_FOOD_ITEMS.filter(food => {
@@ -71,6 +72,21 @@ function SidebarConfig({
   }
 
   const platePerCost = selectedItems.reduce((acc, curr) => acc + curr.unitPrice, 0)
+
+  // Handle QR code image upload — convert to base64 for storage
+  const handleQrUpload = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload a valid image file (PNG, JPG, etc.)')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      setBusinessInfo({ ...businessInfo, qrCodeUrl: ev.target.result })
+    }
+    reader.readAsDataURL(file)
+  }
 
   return (
     <aside className="configurator-sidebar no-print">
@@ -278,15 +294,31 @@ function SidebarConfig({
                     <div 
                       key={food.id} 
                       className={`food-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => !isSelected && handleAddFood(food)}
+                      onClick={() => {
+                        if (isSelected) {
+                          handleRemoveFood(food.id)
+                        } else {
+                          handleAddFood(food)
+                        }
+                      }}
                     >
                       <div className="food-card-info">
                         <span className="food-card-name">{food.name}</span>
                         <span className="food-card-price">₹{food.unitPrice} per plate</span>
                         <span className="food-card-category">{food.category}</span>
                       </div>
-                      <button className="food-card-add" disabled={isSelected}>
-                        <Plus size={14} />
+                      <button 
+                        className="food-card-add"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          if (isSelected) {
+                            handleRemoveFood(food.id)
+                          } else {
+                            handleAddFood(food)
+                          }
+                        }}
+                      >
+                        {isSelected ? <Trash2 size={12} /> : <Plus size={14} />}
                       </button>
                     </div>
                   )
@@ -487,6 +519,70 @@ function SidebarConfig({
                     className="form-input" 
                     value={businessInfo.bankIfsc}
                     onChange={e => setBusinessInfo({...businessInfo, bankIfsc: e.target.value})}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* UPI & QR Code Section */}
+            <div className="form-section">
+              <h3 className="section-title"><Smartphone size={16} /> UPI & QR Code Payment</h3>
+              <div className="profile-inputs-stack">
+                <div className="form-group">
+                  <label className="form-label">UPI ID</label>
+                  <div className="upi-input-wrapper">
+                    <Smartphone size={15} className="upi-input-icon" />
+                    <input 
+                      type="text" 
+                      className="form-input upi-input" 
+                      placeholder="e.g. laxmicatering@upi or 9437442533@paytm"
+                      value={businessInfo.upiId || ''}
+                      onChange={e => setBusinessInfo({...businessInfo, upiId: e.target.value})}
+                    />
+                  </div>
+                  <span className="form-hint">This will appear on the invoice for easy payment</span>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Payment QR Code Image</label>
+                  {businessInfo.qrCodeUrl ? (
+                    <div className="qr-preview-box">
+                      <img 
+                        src={businessInfo.qrCodeUrl} 
+                        alt="Payment QR Code" 
+                        className="qr-preview-img"
+                      />
+                      <div className="qr-preview-actions">
+                        <button 
+                          className="qr-change-btn"
+                          onClick={() => qrFileRef.current.click()}
+                        >
+                          <Upload size={13} /> Change QR
+                        </button>
+                        <button 
+                          className="qr-remove-btn"
+                          onClick={() => setBusinessInfo({...businessInfo, qrCodeUrl: ''})}
+                        >
+                          <X size={13} /> Remove
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div 
+                      className="qr-upload-zone"
+                      onClick={() => qrFileRef.current.click()}
+                    >
+                      <QrCode size={32} className="qr-upload-icon" />
+                      <span className="qr-upload-text">Click to upload QR code</span>
+                      <span className="qr-upload-hint">PNG, JPG supported • Will print on invoice</span>
+                    </div>
+                  )}
+                  <input 
+                    ref={qrFileRef}
+                    type="file" 
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handleQrUpload}
                   />
                 </div>
               </div>

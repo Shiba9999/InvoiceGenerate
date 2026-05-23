@@ -1,18 +1,18 @@
 :root {
-  /* Color System */
+  /* Color System - Smooth Blue & White Theme */
   --bg-app: #f8fafc;
   --bg-sidebar: #ffffff;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
   --border-color: #e2e8f0;
   
-  --primary: #d97706; /* Amber-600 */
-  --primary-hover: #b45309; /* Amber-700 */
-  --primary-light: #fef3c7; /* Amber-100 */
-  --primary-glow: rgba(217, 119, 6, 0.15);
+  --primary: #3b82f6; /* Smooth Blue */
+  --primary-hover: #2563eb; /* Deeper Blue */
+  --primary-light: #eff6ff; /* Very Light Blue */
+  --primary-glow: rgba(59, 130, 246, 0.12);
   
-  --text-main: #1e293b; /* Slate-800 */
-  --text-muted: #64748b; /* Slate-500 */
+  --text-main: #1e293b; /* Slate Gray */
+  --text-muted: #64748b; /* Medium Gray */
   --text-inverse: #ffffff;
   
   --success: #10b981;
@@ -30,22 +30,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark Mode Preferences */
+/* Light Blue Theme Override for Dark Mode Preference */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-app: #0f172a; /* Slate-900 */
-    --bg-sidebar: #1e293b; /* Slate-800 */
-    --bg-card: #1e293b;
-    --bg-card-hover: #334155;
-    --border-color: #334155;
+    --bg-app: #f8fafc;
+    --bg-sidebar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --border-color: #e2e8f0;
     
-    --primary: #f59e0b; /* Amber-500 */
-    --primary-hover: #fbbf24; /* Amber-400 */
-    --primary-light: #78350f; /* Amber-900 */
-    --primary-glow: rgba(245, 158, 11, 0.2);
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: #eff6ff;
+    --primary-glow: rgba(59, 130, 246, 0.12);
     
-    --text-main: #f1f5f9; /* Slate-100 */
-    --text-muted: #94a3b8; /* Slate-400 */
+    --text-main: #1e293b;
+    --text-muted: #64748b;
   }
 }
 

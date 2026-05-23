@@ -23,7 +23,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
 }
 
 /* Sidebar Header Navigation */
@@ -58,7 +58,7 @@
   font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, var(--text-main) 30%, var(--primary) 100%);
+  background: linear-gradient(135deg, #1e293b 30%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -66,17 +66,21 @@
 /* Navigation Tabs */
 .sidebar-nav-tabs {
   display: flex;
-  gap: 4px;
-  margin-bottom: -1px;
+  gap: 6px;
+  background: #f8fafc;
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 8px;
 }
 
 .tab-btn {
   padding: 8px 14px;
-  border: 1px solid transparent;
+  border: none;
   border-radius: 8px;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
@@ -84,43 +88,47 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
+  flex: 1;
 }
 
 .tab-btn:hover {
   color: var(--text-main);
-  background-color: var(--bg-card-hover);
+  background-color: #f1f5f9;
 }
 
 .tab-btn.active {
-  color: var(--primary);
-  border-color: var(--border-color);
-  border-bottom-color: var(--bg-sidebar);
-  background-color: var(--bg-sidebar);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  color: #ffffff;
+  background-color: var(--primary) !important;
+  box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .reset-btn {
-  font-size: 0.75rem;
-  padding: 6px 12px;
-  border: 1px solid var(--border-color);
+  font-size: 0.72rem;
+  padding: 6px 14px;
+  border: 1px solid #e2e8f0;
   border-radius: 20px;
-  background: var(--bg-app);
+  background: #f8fafc;
+  color: var(--text-muted);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .reset-btn:hover {
-  background-color: var(--error);
-  color: white;
-  border-color: var(--error);
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
 }
 
 .history-badge {
-  background: var(--primary-light);
-  color: var(--primary);
-  padding: 1px 6px;
+  background: #eff6ff;
+  color: #3b82f6;
+  padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.7rem;
   font-weight: 700;
+  border: 1px solid #dbeafe;
 }
 
 /* Sidebar Scrollable Body */
@@ -290,13 +298,13 @@
   display: flex;
   justify-content: space-between;
   padding: 12px 16px;
-  background: var(--primary-glow);
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
   border-radius: 8px;
   margin-top: 8px;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--text-main);
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  border: 1px solid #dbeafe;
 }
 
 .cost-value {
@@ -349,22 +357,29 @@
 }
 
 .filter-tab {
-  padding: 6px 12px;
-  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border: 1px solid #e2e8f0;
   border-radius: 20px;
-  background: var(--bg-sidebar);
+  background: #ffffff;
   color: var(--text-muted);
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-tab:hover {
+  color: var(--text-main);
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .filter-tab.active {
   background: var(--primary);
-  color: var(--text-inverse);
+  color: #ffffff;
   border-color: var(--primary);
-  box-shadow: 0 4px 12px var(--primary-glow);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
 .food-grid {
@@ -380,72 +395,129 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
   background: var(--bg-card);
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 80px;
+  gap: 12px;
+}
+
+.food-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .food-card:hover {
   background: var(--bg-card-hover);
-  border-color: var(--primary);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.food-card:hover::after {
+  opacity: 1;
 }
 
 .food-card.selected {
-  opacity: 0.5;
-  cursor: default;
-  background: var(--bg-app);
+  border-color: #3b82f6 !important;
+  background: #f8fafc !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+  opacity: 1 !important;
+}
+
+.food-card.selected:hover {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.05) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15) !important;
+}
+
+.food-card.selected .food-card-add {
+  background: #eff6ff !important;
+  color: var(--primary) !important;
+  border-color: #bfdbfe !important;
+}
+
+.food-card.selected:hover .food-card-add {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  transform: scale(1.1) rotate(0deg) !important;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4) !important;
 }
 
 .food-card-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-width: 0;
 }
 
 .food-card-name {
   font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-main);
+  font-weight: 700;
+  color: var(--text-main) !important;
+  letter-spacing: -0.2px;
 }
 
 .food-card-price {
   font-size: 0.8rem;
-  color: var(--text-muted);
-  font-weight: 500;
+  color: var(--text-muted) !important;
+  font-weight: 600;
 }
 
 .food-card-category {
   font-size: 0.65rem;
-  color: var(--primary);
-  background: var(--primary-light);
-  padding: 1px 6px;
-  border-radius: 4px;
+  color: #3b82f6;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  padding: 2px 8px;
+  border-radius: 6px;
   width: fit-content;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-top: 2px;
 }
 
 .food-card-add {
-  background: var(--primary-light);
-  color: var(--primary);
-  border: none;
+  background: #f8fafc;
+  color: var(--text-muted);
+  border: 1px solid #e2e8f0;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .food-card:not(.selected):hover .food-card-add {
   background: var(--primary);
-  color: var(--text-inverse);
+  color: #ffffff;
+  border-color: var(--primary);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .catalog-empty-notice {
@@ -474,8 +546,8 @@
 }
 
 .flat-charge-item {
-  background: rgba(59, 130, 246, 0.05) !important;
-  border-color: rgba(59, 130, 246, 0.15) !important;
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
 }
 
 .flat-charge-val {
@@ -660,78 +732,220 @@
 
 .action-row {
   display: flex;
-  gap: 12px;
+  gap: 16px;
+  align-items: center;
 }
 
 .print-trigger-btn {
-  width: auto;
-  padding: 8px 18px;
+  width: auto !important;
+  padding: 10px 24px !important;
+  white-space: nowrap !important;
+  background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%) !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35) !important;
+  border: none !important;
+  color: #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.print-trigger-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5) !important;
+  filter: brightness(1.1);
+}
+
+.print-trigger-btn:active {
+  transform: translateY(0) !important;
+}
+
+.theme-selector-container select {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  outline: none !important;
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+  height: 36px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.theme-selector-container select:hover {
+  border-color: rgba(99, 102, 241, 0.4) !important;
+  background-color: var(--bg-card-hover) !important;
+}
+
+.theme-selector-container select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
 }
 
 /* ----------------- THE LIVE PHYSICAL INVOICE DOCUMENT SHEET ----------------- */
 
 /* ==========================================================================
-   INVOICE STYLING THEMES (Modern & Highly Attractive)
+   INVOICE STYLING THEMES (10 Curated Themes, Including Dark & Light Options)
    ========================================================================== */
+   
+/* --- THEME 1: MIDNIGHT NAVY & TEAL (Modern Corporate) --- */
 .invoice-sheet-container.theme-navy {
-  --invoice-primary: #1e3b8b;
-  --invoice-accent: #d97706;
-  --invoice-bg-header: #f8fafc;
-  --invoice-border: #cbd5e1;
-  --invoice-cat-bg: #f0f4f8;
-  --invoice-cat-text: #1e3b8b;
-  --invoice-stripe: linear-gradient(90deg, #1e3b8b 0%, #fbbf24 50%, #1e3b8b 100%);
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-text-muted: #475569;
+  --invoice-primary: #1e3b8b;       /* Deep Midnight Navy */
+  --invoice-accent: #0d9488;        /* Vibrant Teal */
+  --invoice-bg-header: #f0f9ff;     /* Soft Blue-sky */
+  --invoice-border: #bae6fd;        /* Sky-200 */
+  --invoice-cat-bg: #f0fdfa;        /* Soft Mint Teal */
+  --invoice-cat-text: #1e3b8b;      /* Bold Navy */
+  --invoice-stripe: linear-gradient(90deg, #1e3b8b 0%, #0d9488 50%, #1e3b8b 100%);
 }
+
+/* --- THEME 2: FOREST EMERALD & MINT (Botanical Green) --- */
 .invoice-sheet-container.theme-emerald {
-  --invoice-primary: #065f46;
-  --invoice-accent: #c27803;
-  --invoice-bg-header: #f4fbf7;
-  --invoice-border: #ccdcd2;
-  --invoice-cat-bg: #e6f4ea;
-  --invoice-cat-text: #065f46;
-  --invoice-stripe: linear-gradient(90deg, #065f46 0%, #34d399 50%, #065f46 100%);
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-text-muted: #475569;
+  --invoice-primary: #065f46;       /* Deep Forest Green */
+  --invoice-accent: #0f766e;        /* Dark Mint */
+  --invoice-bg-header: #f0fdf4;     /* Very Light Green */
+  --invoice-border: #a7f3d0;        /* Light Emerald-200 */
+  --invoice-cat-bg: #ecfdf5;        /* Soft Mint Green */
+  --invoice-cat-text: #065f46;      /* Bold Forest */
+  --invoice-stripe: linear-gradient(90deg, #065f46 0%, #10b981 50%, #065f46 100%);
 }
+
+/* --- THEME 3: ROYAL INDIGO & LAVENDER (Creative Indigo) --- */
 .invoice-sheet-container.theme-indigo {
-  --invoice-primary: #4f46e5;
-  --invoice-accent: #0d9488;
-  --invoice-bg-header: #faf5ff;
-  --invoice-border: #e9d5ff;
-  --invoice-cat-bg: #f3e8ff;
-  --invoice-cat-text: #4f46e5;
-  --invoice-stripe: linear-gradient(90deg, #4f46e5 0%, #06b6d4 50%, #4f46e5 100%);
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-text-muted: #475569;
+  --invoice-primary: #4f46e5;       /* Modern Indigo */
+  --invoice-accent: #7c3aed;        /* Royal Purple */
+  --invoice-bg-header: #faf5ff;     /* Soft Lavender */
+  --invoice-border: #ddd6fe;        /* Lavender-200 */
+  --invoice-cat-bg: #f5f3ff;        /* Soft Purple */
+  --invoice-cat-text: #4f46e5;      /* Bold Indigo */
+  --invoice-stripe: linear-gradient(90deg, #4f46e5 0%, #a78bfa 50%, #4f46e5 100%);
 }
+
+/* --- THEME 4: SLATE BLUE & CHARCOAL (Sleek Minimal) --- */
+.invoice-sheet-container.theme-slate {
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-text-muted: #475569;
+  --invoice-primary: #334155;       /* Slate-700 Cool Grey */
+  --invoice-accent: #475569;        /* Slate-600 */
+  --invoice-bg-header: #f8fafc;     /* Slate-50 */
+  --invoice-border: #cbd5e1;        /* Slate-200 */
+  --invoice-cat-bg: #f1f5f9;        /* Soft Cool Grey */
+  --invoice-cat-text: #334155;      /* Bold Slate */
+  --invoice-stripe: linear-gradient(90deg, #334155 0%, #64748b 50%, #334155 100%);
+}
+
+/* --- THEME 5: BURGUNDY & CRIMSON (Traditional Celebration) --- */
 .invoice-sheet-container.theme-burgundy {
-  --invoice-primary: #881337;
-  --invoice-accent: #db2777;
-  --invoice-bg-header: #fff1f2;
-  --invoice-border: #fecdd3;
-  --invoice-cat-bg: #ffe4e6;
-  --invoice-cat-text: #881337;
-  --invoice-stripe: linear-gradient(90deg, #881337 0%, #fda4af 50%, #881337 100%);
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-text-muted: #475569;
+  --invoice-primary: #881337;       /* Rich Burgundy Royal */
+  --invoice-accent: #be123c;        /* Crimson Red */
+  --invoice-bg-header: #fff1f2;     /* Soft Rose Pink */
+  --invoice-border: #fecdd3;        /* Rose-200 */
+  --invoice-cat-bg: #ffe4e6;        /* Soft Rose Accent */
+  --invoice-cat-text: #881337;      /* Bold Burgundy */
+  --invoice-stripe: linear-gradient(90deg, #881337 0%, #f43f5e 50%, #881337 100%);
 }
+
+/* --- THEME 6: CLASSIC MINIMAL LIGHT (Ink-Saving Elegant Light) --- */
+.invoice-sheet-container.theme-light {
+  --invoice-bg: #ffffff;
+  --invoice-text: #0f172a;
+  --invoice-text-muted: #64748b;
+  --invoice-primary: #475569;       /* Slate-600 */
+  --invoice-accent: #64748b;
+  --invoice-bg-header: #f8fafc;
+  --invoice-border: #e2e8f0;
+  --invoice-cat-bg: #f1f5f9;
+  --invoice-cat-text: #475569;
+  --invoice-stripe: linear-gradient(90deg, #475569 0%, #cbd5e1 50%, #475569 100%);
+}
+
+/* --- THEME 7: LUXURIOUS MIDNIGHT DARK (Premium Dark Mode Invoice!) --- */
+.invoice-sheet-container.theme-dark {
+  --invoice-bg: #0f172a;            /* Deep dark slate paper */
+  --invoice-text: #f8fafc;            /* Crisp off-white text */
+  --invoice-text-muted: #94a3b8;      /* Slate-400 */
+  --invoice-primary: #38bdf8;         /* Glowing Sky-blue */
+  --invoice-accent: #a855f7;          /* Soft Neon Purple */
+  --invoice-bg-header: #1e293b;       /* Dark slate table header */
+  --invoice-border: #334155;          /* Fine slate borders */
+  --invoice-cat-bg: #1e293b;
+  --invoice-cat-text: #38bdf8;
+  --invoice-stripe: linear-gradient(90deg, #38bdf8 0%, #a855f7 50%, #38bdf8 100%);
+}
+
+/* --- THEME 8: CYBERPUNK SYNTHWAVE DARK (Ultra-Modern Neon Dark) --- */
+.invoice-sheet-container.theme-synthwave {
+  --invoice-bg: #1e1b4b;            /* Glowing deep indigo-blue paper */
+  --invoice-text: #fdf4ff;            /* Magenta-white text */
+  --invoice-text-muted: #c084fc;      /* Purple-400 text */
+  --invoice-primary: #f43f5e;         /* Bright hot pink */
+  --invoice-accent: #06b6d4;          /* Neon cyan */
+  --invoice-bg-header: #312e81;       /* Indigo header */
+  --invoice-border: #4338ca;          /* Neon indigo borders */
+  --invoice-cat-bg: #312e81;
+  --invoice-cat-text: #f43f5e;
+  --invoice-stripe: linear-gradient(90deg, #f43f5e 0%, #06b6d4 50%, #f43f5e 100%);
+}
+
+/* --- THEME 9: AMBER GOLD & FOIL (Classic Luxury Catering) --- */
 .invoice-sheet-container.theme-amber {
-  --invoice-primary: #d97706;
-  --invoice-accent: #b45309;
-  --invoice-bg-header: #fdfbeb;
-  --invoice-border: #fde68a;
-  --invoice-cat-bg: #fef3c7;
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-text-muted: #64748b;
+  --invoice-primary: #d97706;       /* Amber-600 Gold */
+  --invoice-accent: #b45309;        /* Warm Bronze */
+  --invoice-bg-header: #fffbeb;     /* Light gold header */
+  --invoice-border: #fde68a;        /* Gold-200 border */
+  --invoice-cat-bg: #fef3c7;        /* Gold light table row */
   --invoice-cat-text: #b45309;
   --invoice-stripe: linear-gradient(90deg, #d97706 0%, #fbbf24 50%, #d97706 100%);
+}
+
+/* --- THEME 10: CHAMPAGNE & ROSE GOLD (Elegant Wedding Ceremony) --- */
+.invoice-sheet-container.theme-rosegold {
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-text-muted: #64748b;
+  --invoice-primary: #db2777;       /* Blush pink primary */
+  --invoice-accent: #ca8a04;        /* Warm champagne gold */
+  --invoice-bg-header: #fff1f2;     /* Blush header */
+  --invoice-border: #fbcfe8;        /* Soft pink border */
+  --invoice-cat-bg: #ffe4e6;        /* Light blush row */
+  --invoice-cat-text: #db2777;
+  --invoice-stripe: linear-gradient(90deg, #db2777 0%, #fbcfe8 50%, #db2777 100%);
 }
 
 .invoice-sheet-container {
   width: 100%;
   max-width: 800px;
-  background: #ffffff;
-  color: #1e293b;
+  background: var(--invoice-bg, #ffffff);
+  color: var(--invoice-text, #1e293b);
   border-radius: 12px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.05);
   padding: 40px;
   min-height: 1050px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
@@ -772,7 +986,7 @@
   font-family: var(--font-heading);
   font-size: 1.8rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--invoice-text, #0f172a);
   letter-spacing: -0.5px;
   line-height: 1.1;
 }
@@ -787,7 +1001,7 @@
 
 .invoice-brand-address {
   font-size: 0.8rem;
-  color: #475569;
+  color: var(--invoice-text-muted, #475569);
   max-width: 320px;
   margin-top: 8px;
   white-space: pre-line;
@@ -815,7 +1029,7 @@
 .invoice-number-label {
   font-weight: 800;
   font-size: 0.95rem;
-  color: #0f172a;
+  color: var(--invoice-text, #0f172a);
 }
 
 .invoice-meta-dates {
@@ -828,7 +1042,7 @@
 
 .invoice-meta-item {
   font-size: 0.8rem;
-  color: #475569;
+  color: var(--invoice-text-muted, #475569);
 }
 
 .invoice-meta-value {
@@ -986,8 +1200,8 @@
 }
 
 .bank-details-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--invoice-bg-header);
+  border: 1px solid var(--invoice-border);
   border-radius: 8px;
   padding: 16px;
 }
@@ -995,7 +1209,7 @@
 .bank-details-title {
   font-size: 0.75rem;
   font-weight: 800;
-  color: #475569;
+  color: var(--invoice-text-muted);
   text-transform: uppercase;
   margin-bottom: 8px;
   letter-spacing: 0.5px;
@@ -1005,7 +1219,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--invoice-text-muted);
   margin-bottom: 6px;
 }
 
@@ -1015,13 +1229,13 @@
 
 .bank-detail-val {
   font-weight: 700;
-  color: #1e293b;
+  color: var(--invoice-text);
 }
 
 .invoice-notes-block {
   font-size: 0.75rem;
-  color: #64748b;
-  border-left: 3px solid var(--primary);
+  color: var(--invoice-text-muted);
+  border-left: 3px solid var(--invoice-primary);
   padding-left: 12px;
 }
 
@@ -1030,7 +1244,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   margin-bottom: 4px;
-  color: #475569;
+  color: var(--invoice-text-muted);
   letter-spacing: 0.5px;
 }
 
@@ -1053,7 +1267,7 @@
   justify-content: space-between;
   padding: 6px 0;
   font-size: 0.85rem;
-  color: #475569;
+  color: var(--invoice-text-muted);
 }
 
 .totals-row-accent {
@@ -1065,7 +1279,7 @@
 }
 
 .flat-charges-breakdown {
-  border-top: 1px dashed #cbd5e1;
+  border-top: 1px dashed var(--invoice-border);
   margin-top: 8px;
   padding-top: 6px;
   display: flex;
@@ -1085,7 +1299,7 @@
 .flat-summary-row {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--invoice-text);
   padding: 6px 0;
 }
 
@@ -1096,26 +1310,26 @@
   font-family: var(--font-heading);
   font-size: 1.4rem;
   font-weight: 800;
-  color: #0f172a;
-  border-top: 1px solid #cbd5e1;
-  border-bottom: 4px double #cbd5e1;
+  color: var(--invoice-text);
+  border-top: 1px solid var(--invoice-border);
+  border-bottom: 4px double var(--invoice-border);
   margin-top: 8px;
 }
 
 .grand-total-primary {
-  color: var(--primary);
+  color: var(--invoice-primary);
 }
 
 .effective-plate-cost-tag {
   text-align: right;
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--invoice-text-muted);
   margin-top: 6px;
 }
 
 .highlight-tag {
   font-weight: 700;
-  color: #0f172a;
+  color: var(--invoice-accent);
 }
 
 /* Footer Greeting */
@@ -1124,7 +1338,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--invoice-border);
   padding-top: 24px;
 }
 
@@ -1132,7 +1346,7 @@
   font-family: var(--font-heading);
   font-size: 1rem;
   font-style: italic;
-  color: #64748b;
+  color: var(--invoice-text-muted);
 }
 
 .signature-block {
@@ -1141,7 +1355,7 @@
 }
 
 .signature-line {
-  border-bottom: 1px solid #94a3b8;
+  border-bottom: 1px solid var(--invoice-text-muted);
   height: 40px;
   margin-bottom: 6px;
 }
@@ -1149,7 +1363,7 @@
 .signature-label {
   font-size: 0.7rem;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--invoice-text-muted);
   font-weight: 700;
   letter-spacing: 0.5px;
 }
@@ -1415,4 +1629,580 @@
   .invoice-footer {
     page-break-inside: avoid !important;
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  .food-card-name {
+    color: #f1f5f9 !important;
+  }
+  .food-card-price {
+    color: #94a3b8 !important;
+  }
+}
+
+
+/* ==========================================================================
+   RESPONSIVE DESIGN - MOBILE & TABLET OPTIMIZATIONS
+   ========================================================================== */
+
+/* Tablet View (768px - 1024px) */
+@media screen and (max-width: 1024px) {
+  .configurator-sidebar {
+    width: 400px;
+  }
+  
+  .preview-panel {
+    padding: 24px;
+  }
+  
+  .invoice-sheet-container {
+    padding: 30px;
+  }
+}
+
+/* Mobile & Small Tablet View (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .configurator-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    max-height: 60vh;
+  }
+  
+  .sidebar-header-nav {
+    padding: 16px;
+  }
+  
+  .sidebar-branding-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .sidebar-logo-title {
+    font-size: 1.1rem;
+  }
+  
+  .sidebar-nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tab-btn {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+  
+  .reset-btn {
+    font-size: 0.65rem;
+    padding: 5px 10px;
+  }
+  
+  .btn-label-desktop {
+    display: none;
+  }
+  
+  .sidebar-content {
+    padding: 16px;
+    gap: 20px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+  
+  /* Food Grid - Better Mobile Layout */
+  .food-grid {
+    max-height: 400px;
+  }
+  
+  .food-card {
+    padding: 12px 14px;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .food-card-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .food-card-name {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .food-card-price {
+    font-size: 0.75rem;
+  }
+  
+  .food-card-category {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+  
+  .food-card-add {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+  
+  /* Selected Items */
+  .selected-list {
+    max-height: 200px;
+  }
+  
+  .selected-item {
+    flex-wrap: wrap;
+    padding: 10px 12px;
+  }
+  
+  .selected-item-name {
+    font-size: 0.8rem;
+    flex: 1 1 100%;
+    margin-bottom: 6px;
+  }
+  
+  .selected-item-price-adjuster {
+    flex: 1;
+  }
+  
+  /* Custom Adders */
+  .custom-adder {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .custom-adder input {
+    width: 100% !important;
+    flex: 1 !important;
+  }
+  
+  .icon-only-btn {
+    width: 100% !important;
+    padding: 10px !important;
+  }
+  
+  /* Preview Panel */
+  .preview-panel {
+    padding: 16px;
+    height: auto;
+  }
+  
+  .preview-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .preview-title-block {
+    justify-content: center;
+  }
+  
+  .action-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .print-trigger-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .theme-selector-container {
+    width: 100%;
+  }
+  
+  .theme-selector-container select {
+    width: 100%;
+  }
+  
+  /* Invoice Sheet */
+  .invoice-sheet-container {
+    padding: 20px;
+    min-height: auto;
+  }
+  
+  .invoice-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .invoice-meta-block {
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .invoice-meta-dates {
+    align-items: flex-start;
+  }
+  
+  .invoice-title-label {
+    font-size: 1.5rem;
+  }
+  
+  .invoice-brand-name {
+    font-size: 1.4rem;
+  }
+  
+  .invoice-billing-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 16px 0;
+  }
+  
+  .invoice-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .invoice-table {
+    font-size: 0.75rem;
+  }
+  
+  .invoice-table th,
+  .invoice-table td {
+    padding: 8px 6px;
+    font-size: 0.7rem;
+  }
+  
+  .col-idx {
+    width: 30px;
+  }
+  
+  .col-cat {
+    width: 80px;
+    font-size: 0.65rem;
+  }
+  
+  .col-price,
+  .col-qty,
+  .col-total {
+    width: auto;
+    min-width: 60px;
+  }
+  
+  .invoice-summary-block {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .grand-total-row {
+    font-size: 1.2rem;
+  }
+  
+  .sidebar-footer {
+    padding: 12px 16px;
+  }
+  
+  .action-btn {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra Small Mobile (max-width: 480px) */
+@media screen and (max-width: 480px) {
+  .sidebar-logo-title {
+    font-size: 1rem;
+  }
+  
+  .tab-btn {
+    font-size: 0.7rem;
+    padding: 5px 8px;
+  }
+  
+  .history-badge {
+    font-size: 0.65rem;
+    padding: 1px 6px;
+  }
+  
+  .food-card {
+    padding: 10px 12px;
+  }
+  
+  .food-card-name {
+    font-size: 0.8rem;
+  }
+  
+  .food-card-price {
+    font-size: 0.7rem;
+  }
+  
+  .food-card-category {
+    font-size: 0.55rem;
+  }
+  
+  .invoice-sheet-container {
+    padding: 16px;
+  }
+  
+  .invoice-brand-name {
+    font-size: 1.2rem;
+  }
+  
+  .invoice-title-label {
+    font-size: 1.3rem;
+  }
+  
+  .invoice-table th,
+  .invoice-table td {
+    padding: 6px 4px;
+    font-size: 0.65rem;
+  }
+  
+  .grand-total-row {
+    font-size: 1rem;
+  }
+  
+  /* Hide less critical columns on very small screens */
+  .col-idx {
+    display: none;
+  }
+  
+  .invoice-table th.col-idx,
+  .invoice-table td.col-idx {
+    display: none;
+  }
+}
+
+/* Landscape Mobile Optimization */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  .configurator-sidebar {
+    max-height: 50vh;
+  }
+  
+  .sidebar-content {
+    padding: 12px;
+  }
+  
+  .food-grid {
+    max-height: 250px;
+  }
+  
+  .selected-list {
+    max-height: 150px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print,
+  .configurator-sidebar,
+  .preview-header-actions {
+    display: none !important;
+  }
+  
+  .preview-panel {
+    padding: 0;
+  }
+  
+  .invoice-sheet-container {
+    box-shadow: none;
+    border: none;
+    max-width: 100%;
+    page-break-after: always;
+  }
+  
+  .app-container {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   UPI & QR CODE — SETTINGS SIDEBAR
+   ========================================================================== */
+
+.upi-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.upi-input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.upi-input {
+  padding-left: 36px !important;
+}
+
+.form-hint {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* QR Upload Drop Zone */
+.qr-upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 16px;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-app);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.qr-upload-zone:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.qr-upload-icon {
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.qr-upload-zone:hover .qr-upload-icon {
+  color: var(--primary);
+}
+
+.qr-upload-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.qr-upload-hint {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* QR Preview Box */
+.qr-preview-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-app);
+}
+
+.qr-preview-img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.qr-preview-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.qr-change-btn,
+.qr-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.qr-change-btn {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--border-color);
+}
+
+.qr-change-btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.qr-remove-btn {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.qr-remove-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   UPI & QR CODE — INVOICE PREVIEW
+   ========================================================================== */
+
+.upi-row {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--invoice-border);
+}
+
+.upi-val {
+  color: var(--invoice-primary) !important;
+  font-size: 0.8rem !important;
+}
+
+/* QR block on invoice */
+.invoice-qr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px;
+  background: var(--invoice-bg-header);
+  border: 1px solid var(--invoice-border);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.invoice-qr-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--invoice-text-muted);
+}
+
+.invoice-qr-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid var(--invoice-border);
+  background: #ffffff;
+  padding: 4px;
+}
+
+.invoice-qr-upi {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--invoice-primary);
+  word-break: break-all;
+  max-width: 120px;
 }
